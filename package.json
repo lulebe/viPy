@@ -13,7 +13,5 @@
     "node-sass": "^4.5.2",
     "nodemon": "^1.11.0"
   },
-  "dependencies": {
-    "hogan.js": "^3.0.2"
-  }
+  "dependencies": {}
 }

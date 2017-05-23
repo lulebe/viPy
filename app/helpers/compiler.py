@@ -14,7 +14,12 @@ def compileFile(path, outFile=False):
 #1. loop over code
 #2. per block call code constructor function based on type
 def compileJson(data):
-    return 'prevVal=""\n'+''.join(compileCodelist(data['code']))
+    print(data)
+    code = 'prevVal=""\n'
+    for v in data['vars']:
+        code += v+'=""\n'
+    code += ''.join(compileCodelist(data['code']))
+    return code
 
 def compileCodelist(code, indent=0):
     if len(code) == 0:
@@ -45,23 +50,12 @@ def compileValue(data, format='unknown'):
         return 'prevVal'
     raise ValueError('Value is neither raw nor var.')
 
-def compile_val(codeblock, indent):
-    return 'prevVal = ' + compileValue(codeblock['data']) + '\n'
-
-codeblocks['VAL'] = compile_val
-
 
 def compile_varSet(codeblock, indent):
     val = compileValue(codeblock['data'])
     return '%s = %s\nprevVal = %s\n' % (codeblock['name'], val, val)
 
 codeblocks['VAR_SET'] = compile_varSet
-
-
-def compile_varGet(codeblock, indent):
-    return 'prevVal = %s\n' % codeblock['name']
-
-codeblocks['VAR_GET'] = compile_varGet
 
 
 def compile_consoleOut(codeblock, indent):

@@ -1,3 +1,11 @@
+#codeBlocks {
+  width: 300px;
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  overflow: auto;
+}
+
 .collapsible-header span.badge {
   line-height: 44px;
 }
@@ -22,8 +30,24 @@
   -webkit-user-drag: element;
 }
 
-.collection .collection-item.is-dragged {
+.console-closed {
+  #closeConsoleBtn {
+    transform: translateX(370px);
+  }
+  .console-wrapper {
+    transform: translateX(370px);
+  }
+  #codeBuilder {
+    right: 30px;
+  }
+}
 
+#closeConsoleBtn {
+  position: fixed;
+  top: 80px;
+  right: 380px;
+  transform: translateX(0);
+  transition: transform 0.2s ease-out;
 }
 
 .console-wrapper {
@@ -37,6 +61,8 @@
   background: #333;
   color: #ddd;
   font-family: monospace;
+  transform: translateX(0);
+  transition: transform 0.2s ease-out;
   .blinker {
     display: none;
   }
@@ -67,6 +93,9 @@
   }
   .input {
     color: #88f;
+  }
+  .error {
+    color: #f88;
   }
 }
 @keyframes blink {
@@ -122,6 +151,20 @@
   padding: 16px;
 }
 
+
+
+
+@media (max-width: 600px) {
+  #codeBlocks {
+    width: 240px;
+  }
+  #codeBuilder {
+    left: 240px;
+  }
+}
+
+
+
 .codeblock {
   display: inline-block;
   float: left;
@@ -149,20 +192,22 @@
 }
 
 .codeblock-inputs {
-  display: flex;
-  flex-direction: row;
   box-shadow: 0 5px 5px -5px black inset;
   padding: 4px 6px;
   max-height: 0px;
   overflow: hidden;
-  transition: max-height 0.35s ease-out;
+  transition: max-height 0.2s ease-out;
   &.visible {
-    max-height: 100px;
+    max-height: 140px;
   }
-  .fields {
-    margin-left: 4px;
-    border-left: 1px solid lightgrey;
-    padding-left: 4px;
+  > section {
+    display: flex;
+    flex-direction: row;
+    .fields {
+      margin-left: 4px;
+      border-left: 1px solid lightgrey;
+      padding-left: 4px;
+    }
   }
 }
 

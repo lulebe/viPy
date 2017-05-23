@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block title %} - {{name}}{% endblock %}
 {% block content %}
-<div id="codeBlocks" style="width: 300px; position: fixed; top: 64px; bottom: 0; overflow: auto;">
+<div id="codeBlocks">
   <h5 style="margin-left: 16px;">Code Blocks</h5>
   <ul id="blocksCollapsible" data-collapsible="accordion">
     <li>
-      <div class="collapsible-header active"><span class="badge">5</span><i class="material-icons">change_history</i>Basic</div>
+      <div class="collapsible-header active"><span class="badge">3</span><i class="material-icons">change_history</i>Basic</div>
       <div class="collapsible-body" style="padding: 0 0 0 2rem;">
         <ul class="collection">
           <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="CONSOLE_OUT">
@@ -22,25 +22,11 @@
               Input text in the console.
             </p>
           </li>
-          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="VAL">
-            <img class="square" src="/static/imgs/var.png" />
-            <span class="title">Value</span>
-            <p>
-              Provide a Value for the next code block.
-            </p>
-          </li>
           <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="VAR_SET">
             <img class="square" src="/static/imgs/var.png" />
-            <span class="title">Store Value</span>
+            <span class="title">Store to Variable</span>
             <p>
               Store a value for later access.
-            </p>
-          </li>
-          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="VAR_GET">
-            <img class="square" src="/static/imgs/var.png" />
-            <span class="title">Recall Value</span>
-            <p>
-              Get a stored value.
             </p>
           </li>
         </ul>
@@ -126,6 +112,10 @@
   </ul>
 </div>
 <div id="codeBuilder">
+  <ul class="collection with-header">
+    <li class="collection-header" id="varInsertPoint"><h5>Variables</h5></li>
+    <li class="collection-item"><div>&nbsp;<span class="secondary-content"><i class="material-icons codeblock-headerbtn" id="addVarBtn">add</i></span></div></li>
+  </ul>
   <div style="color: grey; text-align: center;">Drop code blocks into the striped areas.</div>
   <div class="codeblock" data-type="START">
     <div class="codeblock-header">
@@ -170,6 +160,21 @@
       </form>
     </div>
   </div>
+</div>
+<div id="closeConsoleBtn">
+  <button class="btn-floating waves-effect waves-light grey"><i class="material-icons">code</i></button>
+</div>
+<div id="modalVar" class="modal">
+  <form id="varForm">
+    <div class="modal-content">
+      <h4>Edit Variable</h4>
+      <input id="addVarInput" type="text" name="name" placeholder="Name">
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="modal-action modal-close waves-effect waves-green btn-flat">Save</button>
+      <button type="reset" class="modal-action modal-close waves-effect btn-flat">Cancel</button>
+    </div>
+  </form>
 </div>
 <script>
   window.program = {{programJson}}

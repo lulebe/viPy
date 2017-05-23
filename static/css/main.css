@@ -6680,6 +6680,13 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   .picker--time .picker__box {
     margin-bottom: 5em; } }
 
+#codeBlocks {
+  width: 300px;
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  overflow: auto; }
+
 .collapsible-header span.badge {
   line-height: 44px; }
 
@@ -6701,6 +6708,22 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   -khtml-user-drag: element;
   -webkit-user-drag: element; }
 
+.console-closed #closeConsoleBtn {
+  transform: translateX(370px); }
+
+.console-closed .console-wrapper {
+  transform: translateX(370px); }
+
+.console-closed #codeBuilder {
+  right: 30px; }
+
+#closeConsoleBtn {
+  position: fixed;
+  top: 80px;
+  right: 380px;
+  transform: translateX(0);
+  transition: transform 0.2s ease-out; }
+
 .console-wrapper {
   width: 400px;
   position: fixed;
@@ -6711,7 +6734,9 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   overflow-y: auto;
   background: #333;
   color: #ddd;
-  font-family: monospace; }
+  font-family: monospace;
+  transform: translateX(0);
+  transition: transform 0.2s ease-out; }
   .console-wrapper .blinker {
     display: none; }
   .console-wrapper.running {
@@ -6736,6 +6761,8 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     color: #8f8; }
   #console .input {
     color: #88f; }
+  #console .error {
+    color: #f88; }
 
 @keyframes blink {
   from, to {
@@ -6777,6 +6804,12 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   background: #efefef;
   padding: 16px; }
 
+@media (max-width: 600px) {
+  #codeBlocks {
+    width: 240px; }
+  #codeBuilder {
+    left: 240px; } }
+
 .codeblock {
   display: inline-block;
   float: left;
@@ -6800,19 +6833,20 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   flex-grow: 1; }
 
 .codeblock-inputs {
-  display: flex;
-  flex-direction: row;
   box-shadow: 0 5px 5px -5px black inset;
   padding: 4px 6px;
   max-height: 0px;
   overflow: hidden;
-  transition: max-height 0.35s ease-out; }
+  transition: max-height 0.2s ease-out; }
   .codeblock-inputs.visible {
-    max-height: 100px; }
-  .codeblock-inputs .fields {
-    margin-left: 4px;
-    border-left: 1px solid lightgrey;
-    padding-left: 4px; }
+    max-height: 140px; }
+  .codeblock-inputs > section {
+    display: flex;
+    flex-direction: row; }
+    .codeblock-inputs > section .fields {
+      margin-left: 4px;
+      border-left: 1px solid lightgrey;
+      padding-left: 4px; }
 
 .codeblock-headerbtn {
   color: grey;

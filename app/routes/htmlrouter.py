@@ -25,7 +25,8 @@ async def showProgram(request, name):
     programJson=progJson, name=realname)
 
 async def deleteProgram(request, name):
-    programs.deleteProgram(name)
+    realname = name.replace('%20', ' ')
+    programs.deleteProgram(realname)
     return response.redirect('/')
 
 async def renameProgram(request):

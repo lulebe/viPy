@@ -48,14 +48,19 @@ def writeToProcess(line, process):
     process.stdin.write(str.encode(line+'\n'))
 
 async def _stream_subprocess(cmd):
-    process = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE, stdin=asyncio.subprocess.PIPE)
+    process = await asyncio.create_subprocess_exec(*cmd, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE, stdin=asyncio.subprocess.PIPE)
     sockets.terminateListener = lambda: process.terminate()
     sockets.inputListener = lambda line: writeToProcess(line, process)
     await asyncio.wait([
         _read_stream(process.stdout, sockets.sendStdout),
-        _read_stream(process.stderr, sockets.sendStdout)
+        _read_stream(process.stderr, sockets.sendStderr)
     ])
-    await process.wait()
-    process = None
-    sockets.sendStdout('Program has finished.')
-    sockets.inputListener = None
+    if process.returncode != None:
+        process = None
+        sockets.sendStdout('Program has finished.')
+        sockets.inputListener = None
+    else:
+        await process.wait()
+        process = None
+        sockets.sendStdout('Program has finished.')
+        sockets.inputListener = None

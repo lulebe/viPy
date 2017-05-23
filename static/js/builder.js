@@ -12,6 +12,9 @@ socket.on('stdout', function (data) {
   data == 'Program has finished.' && $('#cin').blur() && $('#runBtn').show() && $('#stopBtn').hide() && $('.console-wrapper').removeClass('running') && $('#runInd').hide()
   $('#console ul').append('<li class="' + style + '">' + data + '</li>')
 })
+socket.on('stderr', function (data) {
+  $('#console ul').append('<li class="error">' + data + '</li>')
+})
 socket.on('disconnect', function () {
   $('#console ul').append('<li class="info">Disconnected from server.</li>')
 })
@@ -50,6 +53,10 @@ $('#helpConsole').click(function () {
                           + '</li>')
 })
 
+$('#closeConsoleBtn').click(function () {
+  $('body').toggleClass('console-closed')
+})
+
 $('#cinForm').on('submit', function(e) {
   e.preventDefault()
   var val = $('#cin').val()
@@ -70,6 +77,28 @@ $('#runInd').hide()
 $('#stopBtn').hide()
 $('#stopBtn').click(function () {
   socket.emit('terminate', null)
+})
+
+
+$('#modalVar').modal()
+$('#addVarBtn').click(function () {
+  $('#modalVar').modal('open')
+})
+$('#varForm').on('submit', function (e) {
+  e.preventDefault()
+  var varName = $('#addVarInput').val()
+  window.program.vars.push(varName)
+  fillVarSelects()
+  var content = $('<li class="collection-item" data-varname="' + varName + '"><div>' + varName + '<span class="secondary-content"><i class="material-icons codeblock-headerbtn delete">delete</i></span></div></li>')
+  $('#varInsertPoint').after(content)
+  content.find('.delete').one('click', function () {
+    var block = $(this).parents('.collection-item')
+    var i = window.program.vars.indexOf(block.data('varname'))
+    if (i >= 0)
+      window.program.vars.splice(i, 1)
+    fillVarSelects()
+    block.remove()
+  })
 })
 
 
@@ -106,6 +135,11 @@ function drop (e) {
 
 function deleteBlock (e) {
   var el = $(this).parents('.codeblock')
+  el.find('.var-select').each(function (vs) {
+    var i = window.varSelects.indexOf(vs)
+    if (i >= 0)
+      window.varSelects.splice(i, 1)
+  })
   el.next().remove()
   el.remove()
 }
@@ -121,6 +155,18 @@ function renderProgram () {
     "stop" if block index == blocks.length-1, else "next"
     "has-return-value" depending on block, defined by looked up function retval
   */
+  //render Vars
+  program.vars.forEach(function (varName) {
+    var content = $('<li class="collection-item" data-varname="' + varName + '"><div>' + varName + '<span class="secondary-content"><i class="material-icons codeblock-headerbtn delete">delete</i></span></div></li>')
+    $('#varInsertPoint').after(content)
+    content.find('.delete').one('click', function () {
+      var block = $(this).parents('.collection-item')
+      var i = window.program.vars.indexOf(block.data('varname'))
+      if (i >= 0)
+        window.program.vars.splice(i, 1)
+      block.remove()
+    })
+  })
   renderCodeblocks($('.code-connector.first'), program.code, true)
 }
 
@@ -138,15 +184,13 @@ function renderCodeblocks (el, blocks, root) {
     connector.on('dragenter', dragenter)
     connector.on('dragleave', dragleave)
     connector.on('dragover', dragover)
-    // TODO investigate
-    //connector.on('drop', drop)
     deletebtn.one('click', deleteBlock)
     curEl = connector
   })
 }
 
 function parseToProgram () {
-  window.program = {code: []}
+  window.program.code = []
   $('#codeBuilder').children('.codeblock').each(function (i, child) {
     if (child.dataset.type != 'START' && child.dataset.type != 'END')
     window.codeParsers[child.dataset.type]($(child), window.program.code)
