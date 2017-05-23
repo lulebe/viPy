@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col s12"><h3>{{programs|length}} Programs</h3></div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col s12 programlist">
+      {% for program in programs %}
+      <div class="card blue-grey darken-1">
+        <div class="card-content white-text">
+          <span class="card-title">{{program}}</span>
+        </div>
+        <div class="card-action">
+          <a href="/program/{{program}}">open</a>
+          <a href="/deleteprogram/{{program}}">delete</a>
+          <a href="#" class="renameProgramLink" data-program="{{program}}">rename</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<div id="modalRename" class="modal">
+  <form action="/renameprogram" method="post">
+    <div class="modal-content">
+      <h4 id="modalRename-programname-display">Rename Program</h4>
+      <input type="hidden" name="program" id="modalRename-programname">
+      <input type="text" name="name" placeholder="new Name">
+    </div>
+    <div class="modal-footer">
+      <button class="modal-action modal-close waves-effect waves-green btn-flat">Rename</button>
+    </div>
+  </form>
+</div>
+<script type="text/javascript">
+  $('.modal').modal()
+  $('.renameProgramLink').click(function (e) {
+    e.preventDefault()
+    $('#modalRename').modal('open')
+    $('#modalRename-programname-display').text('Rename ' + this.dataset.program)
+    $('#modalRename-programname').val(this.dataset.program)
+  })
+</script>
+{% endblock %}

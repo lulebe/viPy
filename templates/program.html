@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% block title %} - {{name}}{% endblock %}
+{% block content %}
+<div id="codeBlocks" style="width: 300px; position: fixed; top: 64px; bottom: 0; overflow: auto;">
+  <h5 style="margin-left: 16px;">Code Blocks</h5>
+  <ul id="blocksCollapsible" data-collapsible="accordion">
+    <li>
+      <div class="collapsible-header active"><span class="badge">5</span><i class="material-icons">change_history</i>Basic</div>
+      <div class="collapsible-body" style="padding: 0 0 0 2rem;">
+        <ul class="collection">
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="CONSOLE_OUT">
+            <img class="square" src="/static/imgs/icon_terminal.png" />
+            <span class="title">Console Output</span>
+            <p>
+              Output text in the console.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="CONSOLE_IN">
+            <img class="square" src="/static/imgs/icon_terminal.png" />
+            <span class="title">Console Input</span>
+            <p>
+              Input text in the console.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="VAL">
+            <img class="square" src="/static/imgs/var.png" />
+            <span class="title">Value</span>
+            <p>
+              Provide a Value for the next code block.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="VAR_SET">
+            <img class="square" src="/static/imgs/var.png" />
+            <span class="title">Store Value</span>
+            <p>
+              Store a value for later access.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="VAR_GET">
+            <img class="square" src="/static/imgs/var.png" />
+            <span class="title">Recall Value</span>
+            <p>
+              Get a stored value.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><span class="badge">4</span><i class="material-icons">call_split</i>Flow</div>
+      <div class="collapsible-body" style="padding: 0 0 0 2rem;">
+        <ul class="collection">
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="IF_ELSE">
+            <img class="square" src="/static/imgs/icon_ifelse.png" />
+            <span class="title">If/Else</span>
+            <p>
+              Follow different code branches depending on a condition.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="WAIT">
+            <img class="square" src="/static/imgs/pause.png" />
+            <span class="title">Wait</span>
+            <p>
+              Wait for a specified amount of time.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="REPEAT">
+            <img class="square" src="/static/imgs/loop.png" />
+            <span class="title">Loop</span>
+            <p>
+              Repeat code a number of times.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="WAIT_UNTIL">
+            <img class="square" src="/static/imgs/play-pause.png" />
+            <span class="title">Wait Until</span>
+            <p>
+              Wait Until a condition is met.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><span class="badge">1</span><i class="material-icons">settings_input_component</i>Hardware</div>
+      <div class="collapsible-body" style="padding: 0 0 0 2rem;">
+        <ul class="collection">
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="ULTRASONIC">
+            <img class="square" src="/static/imgs/switch.png" />
+            <span class="title">GPIO</span>
+            <p>
+              Turn an output on or off.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><span class="badge">1</span><i class="material-icons">panorama_fish_eye</i>Sensors</div>
+      <div class="collapsible-body" style="padding: 0 0 0 2rem;">
+        <ul class="collection">
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="ULTRASONIC">
+            <img class="square" src="/static/imgs/distance.png" />
+            <span class="title">Ultrasonic</span>
+            <p>
+              Measure a distance.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </li>
+    <li>
+      <div class="collapsible-header"><span class="badge">1</span><i class="material-icons">cloud</i>Internet</div>
+      <div class="collapsible-body" style="padding: 0 0 0 2rem;">
+        <ul class="collection">
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="GET_URL">
+            <img class="square" src="/static/imgs/web.png" />
+            <span class="title">Call URL</span>
+            <p>
+              Call a web URL.
+            </p>
+          </li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</div>
+<div id="codeBuilder">
+  <div style="color: grey; text-align: center;">Drop code blocks into the striped areas.</div>
+  <div class="codeblock" data-type="START">
+    <div class="codeblock-header">
+      <img src="/static/imgs/start.png" class="codeblock-icon">
+      <span class="codeblock-title">Start</span>
+    </div>
+  </div>
+  <div class="code-connector first next"></div>
+  <div class="codeblock" data-type="END">
+    <div class="codeblock-header">
+      <img src="/static/imgs/end.png" class="codeblock-icon">
+      <span class="codeblock-title">End</span>
+    </div>
+  </div>
+</div>
+<div style="width: 400px; position: fixed; right: 0; top: 0px; bottom: 0; padding: 64px 16px 0 16px; overflow-y: auto; background: black; color: #ddd; font-family: monospace;">
+  <div style="text-align: right; padding-top: 16px; font-family: Roboto, sans-serif;">
+    <button class="waves-effect waves-light btn" id="saveBtn">save</button>
+    <button class="waves-effect btn red" id="runBtn"><i class="material-icons right">code</i>save &amp; run</button>
+  </div>
+  <div style="display: flex;">
+    <h4 style="flex-grow: 1;">Console</h4>
+    <button class="waves-effect btn-floating" style="align-self: center; margin-right: 16px;" id="helpConsole"><i class="material-icons">help</i></button>
+    <button class="waves-effect btn-floating red darken-4" style="align-self: center;" id="clearConsole"><i class="material-icons">delete</i></button>
+  </div>
+  <div id="console">
+    <ul class="browser-default" style="padding-left: 16px;">
+      <li class="info">You can interact with your program here.</li>
+      <li class="output">Output from your code will be green.</li>
+      <li class="info">Use the "help" button to show this info again.</li>
+      <li class="info">Use the "delete" button to remove all text in the console.</li>
+    </ul>
+  </div>
+  <div style="position: fixed; right: 0; bottom: 0; width: 400px; padding: 0 16px; background: #333;">
+    <div class="input-field">
+      <form id="cinForm">
+        <input id="cin" type="text" placeholder="Input">
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  window.program = {{programJson}}
+  window.programName = "{{name}}"
+</script>
+<script src="/static/js/socketio.slim.min.js"></script>
+<script src="/static/js/codeblocks.js"></script>
+<script src="/static/js/builder.js"></script>
+{% endblock %}

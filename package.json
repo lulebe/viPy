@@ -1,0 +1,19 @@
+{
+  "name": "vipy",
+  "version": "1.0.0",
+  "description": "sass compiler step for vipy",
+  "main": "index.js",
+  "scripts": {
+    "build-css": "node-sass --include-path scss scss/materialize.scss static/css/main.css",
+    "watch-css": "nodemon -e scss -x \"npm run build-css\""
+  },
+  "author": "Leander Berg",
+  "license": "MIT",
+  "devDependencies": {
+    "node-sass": "^4.5.2",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "hogan.js": "^3.0.2"
+  }
+}
