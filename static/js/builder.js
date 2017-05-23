@@ -9,13 +9,12 @@ socket.on('stdout', function (data) {
     return
   }
   var style = data == 'Program has finished.' ? 'info' : 'output'
-  data == 'Program has finished.' && $('#cin').blur()
+  data == 'Program has finished.' && $('#cin').blur() && $('#runBtn').show() && $('#stopBtn').hide() && $('.console-wrapper').removeClass('running') && $('#runInd').hide()
   $('#console ul').append('<li class="' + style + '">' + data + '</li>')
 })
 socket.on('disconnect', function () {
   $('#console ul').append('<li class="info">Disconnected from server.</li>')
 })
-
 
 renderProgram()
 
@@ -65,6 +64,12 @@ $('#cinForm').on('submit', function(e) {
     }
   }
   $('#cin').val('')
+})
+
+$('#runInd').hide()
+$('#stopBtn').hide()
+$('#stopBtn').click(function () {
+  socket.emit('terminate', null)
 })
 
 
@@ -164,9 +169,12 @@ function saveProgram (cb) {
 }
 
 function runProgram () {
+  $('#runInd').show()
+  $('.console-wrapper').addClass('running')
+  $('#runBtn').hide()
+  $('#stopBtn').show()
   $('#cin').focus()
   $('#console li').remove()
-  $('#console ul').append('<li class="info">Running...<br><br></li>')
   $.get('/api/runprogram/'+window.programName)
 }
 

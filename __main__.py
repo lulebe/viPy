@@ -19,6 +19,9 @@ sockets.sio = sio
 @sio.on('stdin')
 def socket_message(sid, data):
     sockets.clientMessage(data)
+@sio.on('terminate')
+def socket_term(sid, data):
+    sockets.terminateScript()
 
 
 app.run(host="0.0.0.0", port=8000, debug=True)

@@ -32,6 +32,9 @@ async def renameProgram(request):
     programs.renameProgram(request.form.get('program'), request.form.get('name'))
     return response.redirect('/')
 
+async def tutorial(request):
+    return jinja.render('tutorial.html', request)
+
 def init(app):
     jinja.init_app(app, loader=FileSystemLoader(os.path.join(os.path.dirname(__file__),'../../templates')))
     app.add_route(allPrograms, '/')
@@ -40,3 +43,4 @@ def init(app):
     app.add_route(showProgram, '/program/<name>')
     app.add_route(deleteProgram, '/deleteprogram/<name>')
     app.add_route(renameProgram, '/renameprogram', methods=['POST'])
+    app.add_route(tutorial, '/tut')

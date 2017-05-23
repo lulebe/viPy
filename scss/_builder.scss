@@ -26,18 +26,22 @@
 
 }
 
-#console {
-  padding-bottom: 80px;
-  li.info {
-    color: #aaa;
+.console-wrapper {
+  width: 400px;
+  position: fixed;
+  right: 0;
+  top: 0px;
+  bottom: 0;
+  padding: 64px 16px 0 16px;
+  overflow-y: auto;
+  background: #333;
+  color: #ddd;
+  font-family: monospace;
+  .blinker {
+    display: none;
   }
-  li.output {
-    color: #8f8;
-  }
-  li.input {
-    color: #88f;
-  }
-  .inputinfo {
+  &.running {
+    background: black;
     .blinker {
       display: inline-block;
       width: 0.5em;
@@ -50,9 +54,19 @@
       -o-animation: 1s blink step-end infinite;
       animation: 1s blink step-end infinite;
     }
-    .input {
-      color: #88f;
-    }
+  }
+}
+
+#console {
+  padding-bottom: 80px;
+  .info {
+    color: #aaa;
+  }
+  .output {
+    color: #8f8;
+  }
+  .input {
+    color: #88f;
   }
 }
 @keyframes blink {

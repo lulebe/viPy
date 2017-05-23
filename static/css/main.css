@@ -6701,26 +6701,40 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   -khtml-user-drag: element;
   -webkit-user-drag: element; }
 
+.console-wrapper {
+  width: 400px;
+  position: fixed;
+  right: 0;
+  top: 0px;
+  bottom: 0;
+  padding: 64px 16px 0 16px;
+  overflow-y: auto;
+  background: #333;
+  color: #ddd;
+  font-family: monospace; }
+  .console-wrapper .blinker {
+    display: none; }
+  .console-wrapper.running {
+    background: black; }
+    .console-wrapper.running .blinker {
+      display: inline-block;
+      width: 0.5em;
+      height: 1em;
+      background: #88f;
+      transform: translateY(3px);
+      -webkit-animation: 1s blink step-end infinite;
+      -moz-animation: 1s blink step-end infinite;
+      -ms-animation: 1s blink step-end infinite;
+      -o-animation: 1s blink step-end infinite;
+      animation: 1s blink step-end infinite; }
+
 #console {
   padding-bottom: 80px; }
-  #console li.info {
+  #console .info {
     color: #aaa; }
-  #console li.output {
+  #console .output {
     color: #8f8; }
-  #console li.input {
-    color: #88f; }
-  #console .inputinfo .blinker {
-    display: inline-block;
-    width: 0.5em;
-    height: 1em;
-    background: #88f;
-    transform: translateY(3px);
-    -webkit-animation: 1s blink step-end infinite;
-    -moz-animation: 1s blink step-end infinite;
-    -ms-animation: 1s blink step-end infinite;
-    -o-animation: 1s blink step-end infinite;
-    animation: 1s blink step-end infinite; }
-  #console .inputinfo .input {
+  #console .input {
     color: #88f; }
 
 @keyframes blink {

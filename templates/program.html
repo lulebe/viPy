@@ -141,13 +141,17 @@
     </div>
   </div>
 </div>
-<div style="width: 400px; position: fixed; right: 0; top: 0px; bottom: 0; padding: 64px 16px 0 16px; overflow-y: auto; background: black; color: #ddd; font-family: monospace;">
+<div class="console-wrapper">
+  <div id="runInd" class="progress" style="position: fixed; right: 0; top: 64px; width: 400px; margin: 0; padding: 0;">
+      <div class="indeterminate"></div>
+  </div>
   <div style="text-align: right; padding-top: 16px; font-family: Roboto, sans-serif;">
     <button class="waves-effect waves-light btn" id="saveBtn">save</button>
-    <button class="waves-effect btn red" id="runBtn"><i class="material-icons right">code</i>save &amp; run</button>
+    <button class="waves-effect btn red" id="runBtn"><i class="material-icons right">play_arrow</i>save &amp; run</button>
+    <button class="waves-effect btn red" id="stopBtn"><i class="material-icons right">stop</i>stop</button>
   </div>
   <div style="display: flex;">
-    <h4 style="flex-grow: 1;">Console</h4>
+    <h4 class="console-title" style="flex-grow: 1;">Console</h4>
     <button class="waves-effect btn-floating" style="align-self: center; margin-right: 16px;" id="helpConsole"><i class="material-icons">help</i></button>
     <button class="waves-effect btn-floating red darken-4" style="align-self: center;" id="clearConsole"><i class="material-icons">delete</i></button>
   </div>

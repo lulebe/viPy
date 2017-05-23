@@ -1,5 +1,6 @@
 window.codeRenderers = {}
 window.codeParsers = {}
+window.varSelects = []
 
 function randomName() {
     var result = '';
@@ -24,6 +25,7 @@ function createInputs (data) {
                 +'  <div class="var-input" style="padding: 6px;"><select class="browser-default var-select"></select></div>'
                 +'</div>'
                 )
+  window.varSelects.push(inputs.find('.var-select')[0])
   inputs.find('input[name='+groupName+']').change(function (e) {
     switch (parseInt($(this).val())) {
       case 0:
