@@ -180,3 +180,56 @@ window.codeRenderers.CONSOLE_IN = function (el, block) {
 window.codeParsers.CONSOLE_IN = function (el, code) {
   code.push({type: 'CONSOLE_IN'})
 }
+
+
+window.codeRenderers.WAIT = function (el, block) {
+  var content = createBlock('pause', 'WAIT', 'Wait', true)
+  var inputs = createInputs(block.data)
+  content.find('.codeblock-inputs').html(inputs)
+  el.after(content)
+  return {el: content, returns: false}
+}
+window.codeParsers.WAIT = function (el, code) {
+  var type = el.find('input[type="radio"]:checked').next().text()
+  var data
+  if (type == 'From previous')
+    data = {type: 'prev'}
+  else if (type == 'Value')
+    data = {type: 'raw', value: el.find('.value-input').val()}
+  else if (type == 'Variable')
+    data = {type: 'var', name: el.find('.var-select').val()}
+  code.push({type: 'WAIT', data: data})
+}
+
+
+window.codeRenderers.CODE = function (el, block) {
+  var content = createBlock('pause', 'CODE', 'Python code', true)
+  content.find('.codeblock-inputs').html('<textarea style="font-family: monospace">' + block.code || '' + '</textarea>')
+  el.after(content)
+  return {el: content, returns: false}
+}
+window.codeParsers.CODE = function (el, code) {
+  var c = el.find('textarea').val()
+  code.push({type: 'CODE', code: c})
+}
+
+
+window.codeRenderers.IF_ELSE = function (el, block) {
+  var content = createBlock('pause', 'IF_ELSE', 'If/Else', true)
+  var inputs = createInputs(block.data)
+  content.find('.codeblock-inputs').html(inputs)
+  content.find('.codeblock-inputs').append('<section class="subblock"><div class="code-connector next"></div></section>')
+  el.after(content)
+  return {el: content, returns: false}
+}
+window.codeParsers.IF_ELSE = function (el, code) {
+  var type = el.find('input[type="radio"]:checked').next().text()
+  var data
+  if (type == 'From previous')
+    data = {type: 'prev'}
+  else if (type == 'Value')
+    data = {type: 'raw', value: el.find('.value-input').val()}
+  else if (type == 'Variable')
+    data = {type: 'var', name: el.find('.var-select').val()}
+  code.push({type: 'IF_ELSE', data: data})
+}

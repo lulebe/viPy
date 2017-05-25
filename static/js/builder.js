@@ -9,7 +9,7 @@ socket.on('stdout', function (data) {
     return
   }
   var style = data == 'Program has finished.' ? 'info' : 'output'
-  data == 'Program has finished.' && $('#cin').blur() && $('#runBtn').show() && $('#stopBtn').hide() && $('.console-wrapper').removeClass('running') && $('#runInd').hide()
+  data == 'Program has finished.' && finishedExecution()
   $('#console ul').append('<li class="' + style + '">' + data + '</li>')
 })
 socket.on('stderr', function (data) {
@@ -17,6 +17,7 @@ socket.on('stderr', function (data) {
 })
 socket.on('disconnect', function () {
   $('#console ul').append('<li class="info">Disconnected from server.</li>')
+  finishedExecution()
 })
 
 renderProgram()
@@ -115,7 +116,6 @@ function dragover (e) {
 }
 
 function drop (e) {
-  console.log('drop')
   e.stopPropagation()
   $(this).removeClass('dropping-into')
   var data = JSON.parse(e.originalEvent.dataTransfer.getData('application/json'))
@@ -126,10 +126,11 @@ function drop (e) {
   var deletebtn = $('<i class="material-icons codeblock-headerbtn delete">delete</i>')
   inserted.el.after(connector)
   inserted.el.find('.codeblock-header').append(deletebtn)
-  connector.on('dragenter', dragenter)
-  connector.on('dragleave', dragleave)
-  connector.on('dragover', dragover)
-  connector.on('drop', drop)
+  connectors = connector.add(inserted.el.find('.code-connector'))
+  connectors.on('dragenter', dragenter)
+  connectors.on('dragleave', dragleave)
+  connectors.on('dragover', dragover)
+  connectors.on('drop', drop)
   deletebtn.one('click', deleteBlock)
 }
 
@@ -216,15 +217,40 @@ function runProgram () {
   $('#runInd').show()
   $('.console-wrapper').addClass('running')
   $('#runBtn').hide()
+  $('#codeBtn').hide()
   $('#stopBtn').show()
   $('#cin').focus()
   $('#console li').remove()
   $.get('/api/runprogram/'+window.programName)
 }
 
+function showCode () {
+  $.get('/api/programcode/'+window.programName, function (data) {
+    var html = Prism.highlight(data, Prism.languages.python)
+    html = html.replace(/(?:\r\n|\r|\n)/g, '<br />')
+    $('#console li').remove()
+    $('#console ul').append('<li class="info">Program Code:</li>')
+    $('#console ul').append('<li class="output"><pre><code class="language-python">' + html + '</code></pre></li>')
+  })
+}
+
 function saveAndRunProgram () {
   saveProgram(runProgram)
 }
 
+function saveAndShowcode () {
+  saveProgram(showCode)
+}
+
+function finishedExecution () {
+  $('#cin').blur()
+  $('#runBtn').show()
+  $('#codeBtn').show()
+  $('#stopBtn').hide()
+  $('.console-wrapper').removeClass('running')
+  $('#runInd').hide()
+}
+
 $('#saveBtn').click(function () {saveProgram(function () {})})
 $('#runBtn').click(saveAndRunProgram)
+$('#codeBtn').click(saveAndShowcode)

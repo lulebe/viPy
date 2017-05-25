@@ -6,7 +6,6 @@ import socketio
 app = Sanic(__name__)
 
 app.static('/static', './static')
-app.static('/api/program', './programs')
 
 #html routes
 htmlrouter.init(app)

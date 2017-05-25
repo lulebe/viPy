@@ -5,7 +5,7 @@
   <h5 style="margin-left: 16px;">Code Blocks</h5>
   <ul id="blocksCollapsible" data-collapsible="accordion">
     <li>
-      <div class="collapsible-header active"><span class="badge">3</span><i class="material-icons">change_history</i>Basic</div>
+      <div class="collapsible-header active"><span class="badge">4</span><i class="material-icons">change_history</i>Basic</div>
       <div class="collapsible-body" style="padding: 0 0 0 2rem;">
         <ul class="collection">
           <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="CONSOLE_OUT">
@@ -29,20 +29,20 @@
               Store a value for later access.
             </p>
           </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="MATH">
+            <img class="square" src="/static/imgs/var.png" />
+            <span class="title">Math</span>
+            <p>
+              Basic Math Operations on two values.
+            </p>
+          </li>
         </ul>
       </div>
     </li>
     <li>
-      <div class="collapsible-header"><span class="badge">4</span><i class="material-icons">call_split</i>Flow</div>
+      <div class="collapsible-header"><span class="badge">3</span><i class="material-icons">call_split</i>Flow</div>
       <div class="collapsible-body" style="padding: 0 0 0 2rem;">
         <ul class="collection">
-          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="IF_ELSE">
-            <img class="square" src="/static/imgs/icon_ifelse.png" />
-            <span class="title">If/Else</span>
-            <p>
-              Follow different code branches depending on a condition.
-            </p>
-          </li>
           <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="WAIT">
             <img class="square" src="/static/imgs/pause.png" />
             <span class="title">Wait</span>
@@ -50,32 +50,39 @@
               Wait for a specified amount of time.
             </p>
           </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="IF_ELSE">
+            <img class="square" src="/static/imgs/icon_ifelse.png" />
+            <span class="title">If/Else</span>
+            <p>
+              Follow different code branches depending on a condition.
+            </p>
+          </li>
           <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="REPEAT">
             <img class="square" src="/static/imgs/loop.png" />
             <span class="title">Loop</span>
             <p>
-              Repeat code a number of times.
-            </p>
-          </li>
-          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="WAIT_UNTIL">
-            <img class="square" src="/static/imgs/play-pause.png" />
-            <span class="title">Wait Until</span>
-            <p>
-              Wait Until a condition is met.
+              Repeat code as long as a condition is met.
             </p>
           </li>
         </ul>
       </div>
     </li>
     <li>
-      <div class="collapsible-header"><span class="badge">1</span><i class="material-icons">settings_input_component</i>Hardware</div>
+      <div class="collapsible-header"><span class="badge">2</span><i class="material-icons">settings_input_component</i>Hardware</div>
       <div class="collapsible-body" style="padding: 0 0 0 2rem;">
         <ul class="collection">
-          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="ULTRASONIC">
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="GPIO_SET">
             <img class="square" src="/static/imgs/switch.png" />
-            <span class="title">GPIO</span>
+            <span class="title">GPIO Switch</span>
             <p>
               Turn an output on or off.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="GPIO_WAIT">
+            <img class="square" src="/static/imgs/play-pause.png" />
+            <span class="title">Wait for GPIO</span>
+            <p>
+              Wait Until a port has a specified value.
             </p>
           </li>
         </ul>
@@ -96,7 +103,7 @@
       </div>
     </li>
     <li>
-      <div class="collapsible-header"><span class="badge">1</span><i class="material-icons">cloud</i>Internet</div>
+      <div class="collapsible-header"><span class="badge">2</span><i class="material-icons">settings</i>Advanced</div>
       <div class="collapsible-body" style="padding: 0 0 0 2rem;">
         <ul class="collection">
           <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="GET_URL">
@@ -104,6 +111,13 @@
             <span class="title">Call URL</span>
             <p>
               Call a web URL.
+            </p>
+          </li>
+          <li class="draggableBlock collection-item avatar" draggable="true" data-codetype="CODE">
+            <img class="square" src="/static/imgs/python.png" />
+            <span class="title">Python code</span>
+            <p>
+              Execute python code.
             </p>
           </li>
         </ul>
@@ -136,9 +150,10 @@
       <div class="indeterminate"></div>
   </div>
   <div style="text-align: right; padding-top: 16px; font-family: Roboto, sans-serif;">
-    <button class="waves-effect waves-light btn" id="saveBtn">save</button>
-    <button class="waves-effect btn red" id="runBtn"><i class="material-icons right">play_arrow</i>save &amp; run</button>
-    <button class="waves-effect btn red" id="stopBtn"><i class="material-icons right">stop</i>stop</button>
+    <button class="waves-effect waves-light btn small" id="saveBtn">save</button>
+    <button class="waves-effect btn grey small" id="codeBtn"><i class="material-icons right">code</i>show code</button>
+    <button class="waves-effect btn red small" id="runBtn"><i class="material-icons right">play_arrow</i>save &amp; run</button>
+    <button class="waves-effect btn red small" id="stopBtn"><i class="material-icons right">stop</i>stop</button>
   </div>
   <div style="display: flex;">
     <h4 class="console-title" style="flex-grow: 1;">Console</h4>
@@ -153,12 +168,12 @@
       <li class="info">Use the "delete" button to remove all text in the console.</li>
     </ul>
   </div>
-  <div style="position: fixed; right: 0; bottom: 0; width: 400px; padding: 0 16px; background: #333;">
-    <div class="input-field">
-      <form id="cinForm">
-        <input id="cin" type="text" placeholder="Input">
-      </form>
-    </div>
+</div>
+<div style="position: fixed; right: 0; bottom: 0; width: 400px; padding: 0 16px; background: #333; color: white;">
+  <div class="input-field">
+    <form id="cinForm">
+      <input id="cin" type="text" placeholder="Input">
+    </form>
   </div>
 </div>
 <div id="closeConsoleBtn">
@@ -180,6 +195,7 @@
   window.program = {{programJson}}
   window.programName = "{{name}}"
 </script>
+<script src="/static/js/prism.min.js" data-manual></script>
 <script src="/static/js/socketio.slim.min.js"></script>
 <script src="/static/js/codeblocks.js"></script>
 <script src="/static/js/builder.js"></script>

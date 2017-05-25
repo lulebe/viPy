@@ -15,9 +15,9 @@ def compileFile(path, outFile=False):
 #2. per block call code constructor function based on type
 def compileJson(data):
     print(data)
-    code = 'prevVal=""\n'
+    code = '#imports\nfrom time import sleep\nimport sys\n\n#variable inits\nprevVal=""\n'
     for v in data['vars']:
-        code += v+'=""\n'
+        code += '___'+v+'=""\n'
     code += ''.join(compileCodelist(data['code']))
     return code
 
@@ -41,30 +41,41 @@ def formatValue(val, format='unknown'):
         except Exception as e:
             return '"'+str(val).replace('"', '\\"')+'"'
 
+def formatVar(name, format='unknown'):
+    if format == 'string':
+        return 'str('+name+')'
+    if format == 'number':
+        return 'float('+name+')'
+    if format == 'unknown':
+        try:
+            return 'float('+name+')'
+        except Exception as e:
+            return 'str('+name+')'
+
 def compileValue(data, format='unknown'):
     if data['type'] == 'raw':
         return formatValue(data['value'], format)
     if data['type'] == 'var':
-        return data['name']
+        return formatVar('___'+data['name'], format)
     if data['type'] == 'prev':
-        return 'prevVal'
+        return formatVar('prevVal', format)
     raise ValueError('Value is neither raw nor var.')
 
 
 def compile_varSet(codeblock, indent):
     val = compileValue(codeblock['data'])
-    return '%s = %s\nprevVal = %s\n' % (codeblock['name'], val, val)
+    return '#set variable\n%s = %s\nprevVal = %s\n' % ('___'+codeblock['name'], val, val)
 
 codeblocks['VAR_SET'] = compile_varSet
 
 
 def compile_consoleOut(codeblock, indent):
-    return 'print(%s)\n' % compileValue(codeblock['data'], format='string')
+    return '#console output\nprint(%s)\n' % compileValue(codeblock['data'], format='string')
 
 codeblocks['CONSOLE_OUT'] = compile_consoleOut
 
 def compile_consoleIn(codeblock, indent):
-    return 'prevVal = input("__RECEIVING_INPUT__")\n'
+    return '#console input\nprevVal = input("__RECEIVING_INPUT__")\n'
 
 codeblocks['CONSOLE_IN'] = compile_consoleIn
 
@@ -73,3 +84,15 @@ def compile_ifElse(codeblock, indent):
     return compileCodeList(codeblock['yes'], indent+1)
 
 codeblocks['IF_ELSE'] = compile_ifElse
+
+
+def compile_wait(codeblock, indent):
+    return '#wait\nsys.stdout.flush()\nsleep('+compileValue(codeblock['data'], format='number')+')\n'
+
+codeblocks['WAIT'] = compile_wait
+
+
+def compile_code(codeblock, indent):
+    return '#custom code\n'+codeblock['code']+'\n'
+
+codeblocks['CODE'] = compile_code

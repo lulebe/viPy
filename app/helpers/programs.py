@@ -1,6 +1,7 @@
 import os
 import asyncio
 from app.sockets import sockets
+from . import compiler
 
 
 programPath = os.path.join(os.path.dirname(__file__),'../../programs')
@@ -30,7 +31,17 @@ def renameProgram(oldname, newname):
 
 
 def runProgram(name):
+    compileProgram(name)
     asyncio.ensure_future(_stream_subprocess(['python3', os.path.join(programPath, 'compiled', name+'.py')]))
+
+def compileProgram(name):
+    inPath = os.path.join(programPath, name+'.json')
+    outPath = os.path.join(programPath, 'compiled', name+'.py')
+    compiler.compileFile(inPath, outPath)
+
+def getCode(name):
+    with open(os.path.join(programPath, 'compiled', name+'.py'), 'r') as myfile:
+        return myfile.read()
 
 async def _read_stream(stream, cb):
     chars = ''

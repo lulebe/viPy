@@ -1,9 +1,14 @@
+body {
+  background: #efefef;
+}
+
 #codeBlocks {
   width: 300px;
   position: fixed;
   top: 64px;
   bottom: 0;
   overflow: auto;
+  background: white;
 }
 
 .collapsible-header span.badge {
@@ -147,7 +152,6 @@
   bottom: 0;
   right: 400px;
   overflow: auto;
-  background: #efefef;
   padding: 16px;
 }
 
@@ -194,11 +198,10 @@
 .codeblock-inputs {
   box-shadow: 0 5px 5px -5px black inset;
   padding: 4px 6px;
-  max-height: 0px;
+  height: 0px;
   overflow: hidden;
-  transition: max-height 0.2s ease-out;
   &.visible {
-    max-height: 140px;
+    height: auto
   }
   > section {
     display: flex;
@@ -207,6 +210,10 @@
       margin-left: 4px;
       border-left: 1px solid lightgrey;
       padding-left: 4px;
+    }
+    &.subblock {
+      display: block;
+      padding-left: 16px;
     }
   }
 }
@@ -255,11 +262,14 @@
   }
   &.has-return-value {
     border-left-color: #88f;
-    &:after, &.next:after, &.stop:after {
+    &:not(:last-child):after {
       border-top-color: #88f;
     }
+    &:last-child:after {
+      border-color: #88f;
+    }
   }
-  &.next:after {
+  &:not(:last-child):after {
     display: block;
     content: '';
     width: 0;
@@ -271,7 +281,7 @@
     border-right: 10px solid transparent;
     border-top: 10px solid grey;
   }
-  &.stop:after {
+  &:last-child:after {
     display: block;
     content: '';
     width: 0;

@@ -12,13 +12,16 @@ async def saveProgram(request, name):
 
 async def runProgram(request, name):
     realname = name.replace('%20', ' ')
-    inPath = os.path.join(programPath, realname+'.json')
-    outPath = os.path.join(programPath, 'compiled', realname+'.py')
-    compiler.compileFile(inPath, outPath)
     programs.runProgram(realname)
     return response.text('')
+
+async def getProgramCode(request, name):
+    realname = name.replace('%20', ' ')
+    programs.compileProgram(realname)
+    return response.text(programs.getCode(realname))
 
 
 def init(app):
     app.add_route(saveProgram, '/api/saveprogram/<name>', methods=['POST'])
     app.add_route(runProgram, '/api/runprogram/<name>')
+    app.add_route(getProgramCode, '/api/programcode/<name>')

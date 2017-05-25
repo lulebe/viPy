@@ -6680,12 +6680,16 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   .picker--time .picker__box {
     margin-bottom: 5em; } }
 
+body {
+  background: #efefef; }
+
 #codeBlocks {
   width: 300px;
   position: fixed;
   top: 64px;
   bottom: 0;
-  overflow: auto; }
+  overflow: auto;
+  background: white; }
 
 .collapsible-header span.badge {
   line-height: 44px; }
@@ -6801,7 +6805,6 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
   bottom: 0;
   right: 400px;
   overflow: auto;
-  background: #efefef;
   padding: 16px; }
 
 @media (max-width: 600px) {
@@ -6835,11 +6838,10 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
 .codeblock-inputs {
   box-shadow: 0 5px 5px -5px black inset;
   padding: 4px 6px;
-  max-height: 0px;
-  overflow: hidden;
-  transition: max-height 0.2s ease-out; }
+  height: 0px;
+  overflow: hidden; }
   .codeblock-inputs.visible {
-    max-height: 140px; }
+    height: auto; }
   .codeblock-inputs > section {
     display: flex;
     flex-direction: row; }
@@ -6847,6 +6849,9 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
       margin-left: 4px;
       border-left: 1px solid lightgrey;
       padding-left: 4px; }
+    .codeblock-inputs > section.subblock {
+      display: block;
+      padding-left: 16px; }
 
 .codeblock-headerbtn {
   color: grey;
@@ -6880,9 +6885,11 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     width: 280px; }
   .code-connector.has-return-value {
     border-left-color: #88f; }
-    .code-connector.has-return-value:after, .code-connector.has-return-value.next:after, .code-connector.has-return-value.stop:after {
+    .code-connector.has-return-value:not(:last-child):after {
       border-top-color: #88f; }
-  .code-connector.next:after {
+    .code-connector.has-return-value:last-child:after {
+      border-color: #88f; }
+  .code-connector:not(:last-child):after {
     display: block;
     content: '';
     width: 0;
@@ -6893,7 +6900,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
     border-top: 10px solid grey; }
-  .code-connector.stop:after {
+  .code-connector:last-child:after {
     display: block;
     content: '';
     width: 0;
@@ -6941,3 +6948,7 @@ button.picker__today:focus, button.picker__clear:focus, button.picker__close:foc
       .programlist .card {
         width: 31.33%;
         margin: 1%; } }
+
+.btn.small, .small.btn-large {
+  line-height: 21px;
+  padding: 8px 12px; }
