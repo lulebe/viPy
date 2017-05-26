@@ -6718,8 +6718,22 @@ body {
 .console-closed .console-wrapper {
   transform: translateX(370px); }
 
+.console-closed #cinContainer {
+  transform: translateX(370px); }
+
 .console-closed #codeBuilder {
   right: 30px; }
+
+#cinContainer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 400px;
+  padding: 0 16px;
+  background: #333;
+  color: white;
+  transform: translateX(0);
+  transition: transform 0.2s ease-out; }
 
 #closeConsoleBtn {
   position: fixed;
