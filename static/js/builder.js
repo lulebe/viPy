@@ -4,7 +4,7 @@ socket.on('connect', function () {
   $('#console ul').append('<li class="info">Connected to server.</li>')
 })
 socket.on('stdout', function (data) {
-  if (data.substr(1, 19) == '__RECEIVING_INPUT__') {
+  if (data.indexOf('__RECEIVING_INPUT__') != -1) {
     $('#console ul').append('<li class="info inputinfo">Waiting for input: <span class="blinker"></span></li>')
     return
   }
@@ -30,6 +30,10 @@ $('.draggableBlock').on('dragstart', function (e) {
   $(this).addClass('is-dragged')
   e.originalEvent.dataTransfer.setData('application/json', JSON.stringify({type: this.dataset.codetype}))
 })
+$('.draggableBlock').click(function () {
+  $('.click-selected-dragblock').removeClass('click-selected-dragblock')
+  $(this).addClass('click-selected-dragblock')
+})
 $('.draggableBlock').on('dragend', function (e) {
   $(this).removeClass('is-dragged')
 })
@@ -37,6 +41,7 @@ $('.code-connector').on('dragenter', dragenter)
 $('.code-connector').on('dragleave', dragleave)
 $('.code-connector').on('dragover', dragover)
 $('.code-connector').on('drop', drop)
+$('.code-connector').on('click', clickConnector)
 
 $('#clearConsole').click(function () {
   $('#console li').remove()
@@ -131,6 +136,29 @@ function drop (e) {
   connectors.on('dragleave', dragleave)
   connectors.on('dragover', dragover)
   connectors.on('drop', drop)
+  connectors.on('click', clickConnector)
+  deletebtn.one('click', deleteBlock)
+}
+
+function clickConnector () {
+  var block = $('.click-selected-dragblock')
+  block.removeClass('click-selected-dragblock')
+  if (block.length == 0)
+    return
+  var data = {type: block[0].dataset.codetype}
+  var inserted = window.codeRenderers[data.type]($(this), data)
+  var connector = $('<div class="code-connector next'
+                    + (inserted.returns ? ' has-return-value' : '')
+                    + '"></div>')
+  var deletebtn = $('<i class="material-icons codeblock-headerbtn delete">delete</i>')
+  inserted.el.after(connector)
+  inserted.el.find('.codeblock-header').append(deletebtn)
+  connectors = connector.add(inserted.el.find('.code-connector'))
+  connectors.on('dragenter', dragenter)
+  connectors.on('dragleave', dragleave)
+  connectors.on('dragover', dragover)
+  connectors.on('drop', drop)
+  connectors.on('click', clickConnector)
   deletebtn.one('click', deleteBlock)
 }
 

@@ -97,7 +97,7 @@ codeblocks['VAR_SET'] = compile_varSet
 
 
 function compile_consoleOut(codeblock, indent) {
-  return '#console output\nprint(' + compileValue(codeblock.data, 'string') + ')\n'
+  return '#console output\nprint(' + compileValue(codeblock.data, 'string') + ')\nsys.stdout.flush()\n'
 }
 
 codeblocks['CONSOLE_OUT'] = compile_consoleOut
@@ -117,7 +117,7 @@ codeblocks['IF_ELSE'] = compile_ifElse
 
 
 function compile_wait(codeblock, indent) {
-  return '#wait\nsys.stdout.flush()\nsleep('+compileValue(codeblock.data, 'number')+')\n'
+  return '#wait\nsleep('+compileValue(codeblock.data, 'number')+')\n'
 }
 
 codeblocks['WAIT'] = compile_wait

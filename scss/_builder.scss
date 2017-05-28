@@ -33,6 +33,10 @@ body {
   user-select: none;
   -khtml-user-drag: element;
   -webkit-user-drag: element;
+  &.click-selected-dragblock {
+    background: #aaa;
+    box-shadow: 0 0 5px #333 inset;
+  }
 }
 
 .console-closed {

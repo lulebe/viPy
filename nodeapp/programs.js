@@ -19,6 +19,15 @@ module.exports = {
   runProgram
 }
 
+init()
+
+function init () {
+  if (!fs.existsSync(programPath))
+    fs.mkdirSync(programPath)
+  if (!fs.existsSync(makePath(programPath, 'compiled')))
+    fs.mkdirSync(makePath(programPath, 'compiled'))
+}
+
 function listAll (cb) {
   fs.readdir(programPath, (err, files) => {
     if (err)
@@ -92,13 +101,10 @@ function executePython (path) {
     process.stdin.write(data+'\n')
   })
   process.stdout.on('data', data => {
-    console.log('stdout')
-    console.log(data.toString('utf8'))
-    sockets.sendStdout(data.toString('utf8'))
+    data.toString('utf8').split('\n').filter(line => line.length > 0)
+    .forEach(sockets.sendStdout)
   })
   process.stderr.on('data', data => {
-    console.log('stderr')
-    console.log(data.toString('utf8'))
     sockets.sendStderr(data.toString('utf8'))
   })
 }
