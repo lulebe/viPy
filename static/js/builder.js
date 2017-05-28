@@ -4,7 +4,7 @@ socket.on('connect', function () {
   $('#console ul').append('<li class="info">Connected to server.</li>')
 })
 socket.on('stdout', function (data) {
-  if (data.substr(0, 19) == '__RECEIVING_INPUT__') {
+  if (data.substr(1, 19) == '__RECEIVING_INPUT__') {
     $('#console ul').append('<li class="info inputinfo">Waiting for input: <span class="blinker"></span></li>')
     return
   }

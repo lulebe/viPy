@@ -99,5 +99,6 @@ function executePython (path) {
   process.stderr.on('data', data => {
     console.log('stderr')
     console.log(data.toString('utf8'))
+    sockets.sendStderr(data.toString('utf8'))
   })
 }
