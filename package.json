@@ -13,5 +13,10 @@
     "node-sass": "^4.5.2",
     "nodemon": "^1.11.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "nunjucks": "^3.0.1",
+    "socket.io": "^2.0.1"
+  }
 }
