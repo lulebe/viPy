@@ -31,8 +31,9 @@ $('.draggableBlock').on('dragstart', function (e) {
   e.originalEvent.dataTransfer.setData('application/json', JSON.stringify({type: this.dataset.codetype}))
 })
 $('.draggableBlock').click(function () {
+  var wasSelected = $(this).hasClass('click-selected-dragblock')
   $('.click-selected-dragblock').removeClass('click-selected-dragblock')
-  $(this).addClass('click-selected-dragblock')
+  !wasSelected && $(this).addClass('click-selected-dragblock')
 })
 $('.draggableBlock').on('dragend', function (e) {
   $(this).removeClass('is-dragged')
