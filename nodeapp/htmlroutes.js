@@ -1,4 +1,15 @@
 const Router = require('express').Router()
+const nis = require('os').networkInterfaces()
+
+function getIp () {
+  var ip = []
+  for(var k in nis) {
+    var inter = nis[k]
+    for(var j in inter)
+      if(inter[j].family === 'IPv4' && !inter[j].internal)
+        return inter[j].address
+  }
+}
 
 const programs = require('./programs')
 
@@ -17,7 +28,7 @@ function allPrograms (req, res) {
   programs.listAll((err, progList) => {
     if (err)
       return res.status(500).send()
-    res.render('index.html', {programs: progList, noPrograms: progList.length == 0})
+    res.render('index.html', {programs: progList, noPrograms: progList.length == 0, ip: getIp()})
   })
 }
 
