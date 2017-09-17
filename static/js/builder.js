@@ -164,7 +164,7 @@ function clickConnector () {
 }
 
 function deleteBlock (e) {
-  var el = $(this).parents('.codeblock')
+  var el = $(this).parent().parent()
   el.find('.var-select').each(function (vs) {
     var i = window.varSelects.indexOf(vs)
     if (i >= 0)

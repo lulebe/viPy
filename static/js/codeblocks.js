@@ -106,7 +106,7 @@ function createBlock (imgName, type, title, hasInputs) {
   var header = base.find('codeblock-header')
   header.append(deletebtn)
   deletebtn.one('click', function () {
-    var el = $(this).parents('.codeblock')
+    var el = $(this).closest('.codeblock')
     el.next().remove()
     el.remove()
   })
@@ -116,7 +116,7 @@ function createBlock (imgName, type, title, hasInputs) {
   base.append(inputs)
   var expandbtn = $('<i class="material-icons codeblock-headerbtn">keyboard_arrow_down</i>')
   expandbtn.click(function () {
-    $(this).parents('.codeblock').find('.codeblock-inputs').toggleClass('visible')
+    $(this).closest('.codeblock').find('.codeblock-inputs').toggleClass('visible')
     $(this).toggleClass('expanded')
   })
   base.find('.codeblock-title').after(expandbtn)
@@ -203,7 +203,7 @@ window.codeParsers.WAIT = function (el, code) {
 
 
 window.codeRenderers.CODE = function (el, block) {
-  var content = createBlock('pause', 'CODE', 'Python code', true)
+  var content = createBlock('python', 'CODE', 'Python code', true)
   content.find('.codeblock-inputs').html('<textarea style="font-family: monospace">' + block.code || '' + '</textarea>')
   el.after(content)
   return {el: content, returns: false}
@@ -215,9 +215,33 @@ window.codeParsers.CODE = function (el, code) {
 
 
 window.codeRenderers.IF_ELSE = function (el, block) {
-  var content = createBlock('pause', 'IF_ELSE', 'If/Else', true)
-  var inputs = createInputs(block.data)
-  content.find('.codeblock-inputs').html(inputs)
+  var content = createBlock('icon_ifelse', 'IF_ELSE', 'If/Else', true)
+  var inputsFirst = createInputs(block.data ? block.data.first : null)
+  inputsFirst.addClass('inputs-first')
+  var inputsSecond = createInputs(block.data ? block.data.second : {type: 'raw', value: 0})
+  inputsSecond.addClass('inputs-second')
+  var inputsContainer = $('<div style="display: flex;"></div>')
+  inputsContainer.html(inputsFirst)
+  var radioName = randomName()
+  var radId1 = randomName()
+  var radId2 = randomName()
+  var radId3 = randomName()
+  inputsContainer.append('<div style="padding-right: 16px;" class="operators">'
+                        +'  <input type="radio" name="' + radioName + '" id="' + radId1 + '" value="lt"><label for="'+radId1+'">&lt;</label><br>'
+                        +'  <input type="radio" name="' + radioName + '" id="' + radId2 + '" value="eq"><label for="'+radId2+'">=</label><br>'
+                        +'  <input type="radio" name="' + radioName + '" id="' + radId3 + '" value="gt"><label for="'+radId3+'">&gt;</label><br>'
+                        +'</div>'
+                        )
+  if (!block.data)
+    inputsContainer.find('#'+radId2).attr('checked', 'checked')
+  else if (block.data.op == 0)
+    inputsContainer.find('#'+radId1).attr('checked', 'checked')
+  else if (block.data.op == 1)
+    inputsContainer.find('#'+radId2).attr('checked', 'checked')
+  else if (block.data.op == 2)
+    inputsContainer.find('#'+radId3).attr('checked', 'checked')
+  inputsContainer.append(inputsSecond)
+  content.find('.codeblock-inputs').html(inputsContainer)
   content.find('.codeblock-inputs').append('<section class="subblock"><div class="code-connector next"></div></section>')
   el.after(content)
   return {el: content, returns: false}

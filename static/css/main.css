@@ -6712,8 +6712,7 @@ body {
   -khtml-user-drag: element;
   -webkit-user-drag: element; }
   [draggable].click-selected-dragblock {
-    background: #aaa;
-    box-shadow: 0 0 5px #333 inset; }
+    background: #ccc; }
 
 .console-closed #closeConsoleBtn {
   transform: translateX(370px); }
@@ -6861,10 +6860,9 @@ body {
     height: auto; }
   .codeblock-inputs > section {
     display: flex;
-    flex-direction: row; }
+    flex-direction: column; }
     .codeblock-inputs > section .fields {
       margin-left: 4px;
-      border-left: 1px solid lightgrey;
       padding-left: 4px; }
     .codeblock-inputs > section.subblock {
       display: block;
